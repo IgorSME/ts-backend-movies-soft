@@ -14,6 +14,12 @@ const userSchema:Schema<IUserSchema> = new Schema<IUserSchema>(
       type: String,
       required: [true, "Set email for user"],
       unique: true,
+      validate:{
+        validator:(value:string)=>{
+          return Joi.string().email({tlds:{allow:false}}).validate(value).error === null;
+        },
+        message:"Invalid email format",
+      }
     },
     password: {
       type: String,
