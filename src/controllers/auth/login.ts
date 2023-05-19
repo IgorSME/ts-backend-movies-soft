@@ -1,10 +1,12 @@
-const bcrypt = require("bcrypt");
-const { requestError, createToken } = require("../../helpers");
-const { User } = require("../../models");
+import bcrypt from "bcrypt";
+import { Request, Response } from "express";
+import { requestError, createToken } from "../../helpers";
+import { User } from "../../models";
+import { IUserSchema } from "../../types/appType";
 
-const login = async (req, res) => {
+const login = async (req:Request, res:Response) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user:IUserSchema | null = await User.findOne({ email });
   if (!user) {
     throw requestError(401, "Email or password is wrong");
   }
@@ -25,4 +27,4 @@ const login = async (req, res) => {
   });
 };
 
-module.exports = login;
+export default login;

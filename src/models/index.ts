@@ -1,13 +1,13 @@
-const {
+import {
   User,
   joiLoginSchema,
   joiRegisterSchema,
   joiRefreshTokenSchema,
-} = require("./user");
+} from "./user";
 
-const { Movies, joiMoviesSchema } = require("./movies");
+import { Movies, joiMoviesSchema } from "./movies";
 
-module.exports = {
+export {
   User,
   joiLoginSchema,
   joiRegisterSchema,

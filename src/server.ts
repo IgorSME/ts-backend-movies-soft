@@ -1,8 +1,14 @@
-const mongoose = require("mongoose");
-mongoose.set("strictQuery", false);
-const app = require("./app");
+import mongoose from "mongoose";
+import app from "./app";
 
-const { DB_HOST, PORT = 3003 } = process.env;
+mongoose.set("strictQuery", false);
+
+const { DB_HOST, PORT = '3003' }:NodeJS.ProcessEnv = process.env;
+
+if (!DB_HOST) {
+  console.error("DB_HOST is not defined");
+  process.exit(1);
+}
 
 mongoose
   .connect(DB_HOST)
@@ -11,7 +17,7 @@ mongoose
       console.log(`Server running. Use our API on port: ${PORT}`);
     })
   )
-  .catch((error) => {
+  .catch((error:Error) => {
     console.log(error.message);
     process.exit(1);
   });

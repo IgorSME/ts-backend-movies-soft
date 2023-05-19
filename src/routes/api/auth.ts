@@ -1,13 +1,14 @@
-const express = require("express");
-const router = express.Router();
-const { authToken, validation, ctrlWrapper } = require("../../middlewares");
-const {
+import express, {Router} from 'express';
+import { authToken, validation, ctrlWrapper } from "../../middlewares";
+import {
   joiRegisterSchema,
   joiLoginSchema,
   joiRefreshTokenSchema,
-} = require("../../models");
+} from "../../models";
 
-const { auth: ctrl } = require("../../controllers");
+import { auth as ctrl }from "../../controllers";
+
+const router:Router = express.Router();
 
 router.post(
   "/register",
@@ -23,4 +24,4 @@ router.post(
 );
 router.get("/current", authToken, ctrlWrapper(ctrl.getCurrent));
 
-module.exports = router;
+export default router;

@@ -1,7 +1,9 @@
-const { Schema, model } = require("mongoose");
-const Joi = require("joi");
+import { Schema, model } from "mongoose";
+import Joi, { ObjectSchema } from "joi";
+import { IUserSchema } from "../types/appType";
 
-const userSchema = new Schema(
+
+const userSchema:Schema<IUserSchema> = new Schema<IUserSchema>(
   {
     username: {
       type: String,
@@ -30,7 +32,7 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const joiRegisterSchema = Joi.object({
+const joiRegisterSchema:ObjectSchema = Joi.object({
   username: Joi.string().min(3).required(),
   password: Joi.string().min(6).required(),
   email: Joi.string()
@@ -43,13 +45,13 @@ const joiLoginSchema = Joi.object({
     .email({ tlds: { allow: false } })
     .required(),
 });
-const joiRefreshTokenSchema = Joi.object({
+const joiRefreshTokenSchema:ObjectSchema = Joi.object({
   refreshToken: Joi.string().required(),
 });
 
-const User = model("user", userSchema);
+const User = model<IUserSchema>("user", userSchema);
 
-module.exports = {
+export {
   User,
   joiLoginSchema,
   joiRegisterSchema,

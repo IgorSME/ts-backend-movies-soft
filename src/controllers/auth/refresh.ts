@@ -1,13 +1,15 @@
-const jwt = require("jsonwebtoken");
-const { requestError, createToken } = require("../../helpers");
-const { User } = require("../../models");
+import { Request, Response, NextFunction } from 'express';
+import jwt, {JwtPayload} from 'jsonwebtoken';
+import { requestError, createToken } from '../../helpers';
+import { User } from '../../models';
+
 
 const { SECRET_KEY_REFRESH = "" } = process.env;
 
-const refresh = async (req, res, next) => {
+const refresh = async (req:Request, res:Response, next:NextFunction):Promise<void> => {
   try {
     const { refreshToken } = req.body;
-    const { id } = jwt.verify(refreshToken, SECRET_KEY_REFRESH);
+    const { id } = jwt.verify(refreshToken, SECRET_KEY_REFRESH)as JwtPayload & { id: string };
     const user = await User.findById(id);
     if (!user || user.refreshToken !== refreshToken) {
       throw requestError(401, "Token expired");
@@ -29,4 +31,4 @@ const refresh = async (req, res, next) => {
   }
 };
 
-module.exports = refresh;
+export default refresh;

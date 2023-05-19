@@ -1,7 +1,8 @@
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
+
 const { SECRET_KEY_ACCESS = "", SECRET_KEY_REFRESH = "" } = process.env;
 
-const createToken = (_id) => {
+const createToken = (_id:string) => {
   const payload = {
     id: _id,
   };
@@ -14,4 +15,4 @@ const createToken = (_id) => {
   return { accessToken, refreshToken };
 };
 
-module.exports = createToken;
+export default createToken;

@@ -1,13 +1,14 @@
-const express = require("express");
-const router = express.Router();
-const {
+import express, {Router} from 'express';
+import {
   validation,
   ctrlWrapper,
   authToken,
   isValidId,
-} = require("../../middlewares");
-const { joiMoviesSchema } = require("../../models");
-const { movies: ctrl } = require("../../controllers");
+}  from "../../middlewares";
+import { joiMoviesSchema } from "../../models";
+import { movies as ctrl } from "../../controllers";
+
+const router:Router = express.Router();
 
 router.get("/", authToken, ctrlWrapper(ctrl.getAll));
 router.get("/:idParam", authToken, isValidId, ctrlWrapper(ctrl.getById));
@@ -27,4 +28,4 @@ router.delete(
   ctrlWrapper(ctrl.removeById)
 );
 
-module.exports = router;
+export default router;

@@ -1,7 +1,8 @@
-const { Schema, model } = require("mongoose");
-const Joi = require("joi");
+import { Schema, model } from "mongoose";
+import Joi, { ObjectSchema } from "joi";
+import { IMovieSchema } from "../types/appType";
 
-const movieSchema = new Schema(
+const movieSchema:Schema<IMovieSchema> = new Schema<IMovieSchema>(
   {
     date: {
       type: Date,
@@ -24,15 +25,16 @@ const movieSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-const joiMoviesSchema = Joi.object({
+const joiMoviesSchema:ObjectSchema = Joi.object({
   date: Joi.date().timestamp("unix").required(),
   title: Joi.string().required(),
   director: Joi.string().required(),
 });
 
-const Movies = model("movies", movieSchema);
+const Movies = model<IMovieSchema>("movies", movieSchema);
 
-module.exports = {
+
+export  {
   Movies,
   joiMoviesSchema,
 };

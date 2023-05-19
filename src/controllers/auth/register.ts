@@ -1,17 +1,19 @@
-const bcrypt = require("bcrypt");
-const { User } = require("../../models");
-const { requestError, createToken } = require("../../helpers");
+import bcrypt from "bcrypt";
+import { Request, Response } from "express";
+import { User } from "../../models";
+import { requestError, createToken } from "../../helpers";
+import { IUserSchema } from "../../types/appType";
 
-const register = async (req, res) => {
+const register = async (req:Request, res:Response) => {
   const { username, email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user:IUserSchema | null = await User.findOne({ email });
 
   if (user) {
     throw requestError(401, `User with email:${email} already exist`);
   }
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const newUser = await User.create({
+  const newUser:IUserSchema | null = await User.create({
     username,
     email,
     password: hashedPassword,
@@ -29,4 +31,4 @@ const register = async (req, res) => {
   });
 };
 
-module.exports = register;
+export default register;
